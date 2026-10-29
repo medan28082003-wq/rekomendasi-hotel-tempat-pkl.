@@ -556,25 +556,25 @@ function exportCsv() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
 function authChanged(user) {
   currentUser = user;
   isAdmin =
     !!user &&
     !!user.email &&
     user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-  
+
   $("loginBtn")?.classList.toggle("hidden", !!user);
   $("heroLogin")?.classList.toggle("hidden", !!user);
-  $("logoutBtn")?.classList.toggle("hidden", !user);
-
-  if ($("userInfo")) {
-    $("userInfo").textContent = user
-      ? `Login sebagai ${user.email || "pengguna"}`
-      : "Belum login";
-  }
-
-  $("adminPanel")?.classList.toggle("hidden", !isAdmin);
+  $("accountPanel")?.classList.toggle("hidden", !user);
   $("applySection")?.classList.toggle("hidden", !user);
+  $("adminPanel")?.classList.toggle("hidden", !isAdmin);
+
+  if ($("accountInfo")) {
+    $("accountInfo").textContent = user
+      ? `Login sebagai ${user.email || "pengguna"}`
+      : "";
+  }
 
   if (isAdmin) {
     addFeatureUI();
@@ -590,8 +590,11 @@ function init() {
   auth = getAuth(app);
   db = getFirestore(app);
 
+  $("year").textContent = new Date().getFullYear();
+
   $("loginBtn")?.addEventListener("click", login);
   $("heroLogin")?.addEventListener("click", login);
+
   $("logoutBtn")?.addEventListener("click", async () => {
     try {
       await signOut(auth);
@@ -606,8 +609,9 @@ function init() {
   $("cityFilter")?.addEventListener("change", renderHotels);
   $("applyForm")?.addEventListener("submit", saveApplication);
   $("hotelForm")?.addEventListener("submit", saveHotel);
-  $("exportCsv")?.addEventListener("click", exportCsv);
+  $("exportBtn")?.addEventListener("click", exportCsv);
 
+  addFeatureUI();
   loadHotels();
   onAuthStateChanged(auth, authChanged);
 }
@@ -618,4 +622,3 @@ try {
   console.error("Inisialisasi Firebase gagal:", e);
   toast("Website gagal memulai Firebase. Periksa konfigurasi.");
 }
-
