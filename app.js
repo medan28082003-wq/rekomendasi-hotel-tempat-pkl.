@@ -438,26 +438,34 @@ async function login() {
     );
   }
 }
+
 async function saveApplication(e) {
   e.preventDefault();
+
+  const form = e.currentTarget;
+
   if (!currentUser) {
     toast("Login Google terlebih dahulu.");
     return;
   }
-  const f = new FormData(e.currentTarget),
-    hotel = hotels.find((h) => h.id === f.get("hotel"));
+
+  const f = new FormData(form);
+  const hotel = hotels.find((h) => h.id === f.get("hotel"));
+
   if (!hotel) {
     status("applyStatus", "Pilih hotel yang tersedia.");
     return;
   }
+
   status("applyStatus", "Mengirim…");
+
   try {
     await addDoc(collection(db, "applications"), {
       uid: currentUser.uid,
       email: currentUser.email || "",
-      name: String(f.get("name")).trim(),
-      school: String(f.get("school")).trim(),
-      major: String(f.get("major")).trim(),
+      name: String(f.get("name") || "").trim(),
+      school: String(f.get("school") || "").trim(),
+      major: String(f.get("major") || "").trim(),
       hotelId: hotel.id,
       hotelName: hotel.name,
       message: String(f.get("message") || "").trim(),
@@ -465,23 +473,26 @@ async function saveApplication(e) {
       adminNote: "",
       createdAt: serverTimestamp(),
     });
-    e.currentTarget.reset();
+
+    form.reset();
+
     status(
       "applyStatus",
       "Berhasil dikirim. Pemilik website akan meninjau data ini."
     );
+
     toast("Minat PKL berhasil dikirim.");
-  
-  
   } catch (e) {
     console.error("ERROR KIRIM PKL:", e);
+
     status(
       "applyStatus",
-      "Kode: " + (e.code || "tidak diketahui") +
-      " | Pesan: " + (e.message || "Tidak ada detail")
+      "Gagal: " + (e.code || "unknown") +
+      " — " + (e.message || "Periksa Firebase.")
     );
   }
 }
+
 
 
 async function saveHotel(e) {
