@@ -562,4 +562,44 @@ function authChanged(user) {
     !!user &&
     !!user.email &&
     user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-  $("loginBtn").classList.toggle("hidden", !!user)
+
+  $("loginBtn")?.classList.toggle("hidden", !!user);
+  $("heroLogin")?.classList.toggle("hidden", !!user);
+  $("logoutBtn")?.classList.toggle("hidden", !user);
+
+  if ($("accountPanel")) {
+    $("accountPanel").classList.toggle("hidden", !user);
+  }
+
+  if ($("adminPanel")) {
+    $("adminPanel").classList.toggle("hidden", !isAdmin);
+  }
+
+  if ($("userEmail")) {
+    $("userEmail").textContent = user?.email || "";
+  }
+
+  if ($("userName")) {
+    $("userName").textContent = user?.displayName || "";
+  }
+
+  if ($("userPhoto")) {
+    $("userPhoto").src = user?.photoURL || "";
+    $("userPhoto").classList.toggle("hidden", !user?.photoURL);
+  }
+
+  if ($("applySection")) {
+    $("applySection").classList.toggle("hidden", !user);
+  }
+
+  if (isAdmin) {
+    loadApplications();
+    loadAdminNotes();
+  } else {
+    applications = [];
+    if ($("applicationList")) $("applicationList").innerHTML = "";
+    if ($("appCount")) $("appCount").textContent = "0";
+  }
+
+  loadAnnouncements();
+}
