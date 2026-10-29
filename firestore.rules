@@ -1,13 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() {
-      return request.auth != null;
-    }
-    // Ganti email ini dengan email Google pemilik website.
+    function signedIn() { return request.auth != null; }
     function isOwner() {
-      return signedIn() &&
-        request.auth.token.email == 'medan28082003@gmail.com';
+      return signedIn()
+        && request.auth.token.email == 'medan28082003@gmail.com';
     }
 
     match /hotels/{hotelId} {
@@ -16,9 +13,7 @@ service cloud.firestore {
     }
 
     match /applications/{applicationId} {
-      // Hanya pemilik yang dapat membaca, mengubah, atau menghapus pendaftar.
       allow read, update, delete: if isOwner();
-      // Pengunjung login boleh mengirim pendaftaran hanya atas nama UID sendiri.
       allow create: if signedIn()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.email == request.auth.token.email
@@ -35,6 +30,23 @@ service cloud.firestore {
         && request.resource.data.hotelName is string
         && request.resource.data.message is string
         && request.resource.data.message.size() <= 500;
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if isOwner() || resource.data.published == true;
+      allow create, update: if isOwner()
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 120
+        && request.resource.data.body is string
+        && request.resource.data.body.size() > 0
+        && request.resource.data.body.size() <= 2000
+        && request.resource.data.published is bool;
+      allow delete: if isOwner();
+    }
+
+    match /adminPrivate/{documentId} {
+      allow read, write: if isOwner();
     }
   }
 }
