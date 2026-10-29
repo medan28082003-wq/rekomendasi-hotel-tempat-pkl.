@@ -439,13 +439,20 @@ async function login() {
   }
 }
 
+
 async function saveApplication(e) {
   e.preventDefault();
 
-  const form = e.currentTarget;
-
   if (!currentUser) {
     toast("Login Google terlebih dahulu.");
+    return;
+  }
+
+  const form = document.getElementById("applyForm");
+
+  if (!form) {
+    status("applyStatus", "Formulir applyForm tidak ditemukan.");
+    console.error("Elemen #applyForm tidak ditemukan.");
     return;
   }
 
@@ -474,25 +481,29 @@ async function saveApplication(e) {
       createdAt: serverTimestamp(),
     });
 
-    form.reset();
+    form.querySelectorAll(
+      'input:not([type="hidden"]), textarea'
+    ).forEach((el) => {
+      el.value = "";
+    });
+
+    const hotelSelect = form.querySelector('select[name="hotel"]');
+    if (hotelSelect) hotelSelect.selectedIndex = 0;
 
     status(
       "applyStatus",
       "Berhasil dikirim. Pemilik website akan meninjau data ini."
     );
-
     toast("Minat PKL berhasil dikirim.");
-  } catch (e) {
-    console.error("ERROR KIRIM PKL:", e);
-
+  } catch (err) {
+    console.error("ERROR KIRIM PKL:", err);
     status(
       "applyStatus",
-      "Gagal: " + (e.code || "unknown") +
-      " — " + (e.message || "Periksa Firebase.")
+      "Gagal: " + (err.code || "unknown") +
+      " — " + (err.message || "Periksa Firebase.")
     );
   }
 }
-
 
 
 async function saveHotel(e) {
