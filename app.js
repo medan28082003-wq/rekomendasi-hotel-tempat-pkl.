@@ -471,14 +471,16 @@ async function saveApplication(e) {
       "Berhasil dikirim. Pemilik website akan meninjau data ini."
     );
     toast("Minat PKL berhasil dikirim.");
+  
   } catch (e) {
-    console.error(e);
+    console.error("Gagal mengirim formulir PKL:", e);
     status(
       "applyStatus",
-      "Gagal mengirim. Periksa konfigurasi dan aturan database."
+      `Gagal: ${e.code || "unknown"} — ${e.message || "Periksa Firebase."}`
     );
   }
 }
+
 async function saveHotel(e) {
   e.preventDefault();
   if (!isAdmin) return;
