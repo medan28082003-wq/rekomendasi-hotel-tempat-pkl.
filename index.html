@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b35">
+  <meta name="description" content="Temukan rekomendasi hotel untuk PKL atau magang, lihat informasi hotel, dan kirim minat pendaftaran dengan mudah.">
+  <title>Rekomendasi Hotel Tempat PKL</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">✦</span><span>Rekomendasi Hotel<br><small>Tempat PKL</small></span></a>
+    <nav><a href="#daftar">Daftar Hotel</a><a href="#cara">Cara Kerja</a><button id="loginBtn" class="button button-light">Masuk dengan Google</button></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">PANDUAN PKL & MAGANG</span>
+        <h1>Temukan hotel yang tepat untuk <em>PKL-mu.</em></h1>
+        <p>Jelajahi rekomendasi hotel, bandingkan informasi dasar, lalu kirim minat agar kamu bisa menindaklanjuti langsung ke pihak hotel.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#daftar">Jelajahi hotel <span>↗</span></a><button class="button button-outline" id="heroLogin">Login Google</button></div>
+        <p class="small-note">Informasi lowongan perlu dikonfirmasi langsung ke hotel. Website ini bukan perwakilan resmi hotel.</p>
+      </div>
+      <div class="hero-art" aria-label="Ilustrasi hotel">
+        <div class="sun"></div><div class="building building-back"></div><div class="building building-front"><div class="roof"></div><div class="windows"></div><div class="door"></div></div>
+        <div class="plant plant-one">♣</div><div class="plant plant-two">♣</div><div class="art-label"><span>✦</span><div><b>Langkah awal kariermu</b><small>Mulai dari tempat belajar yang tepat</small></div></div>
+      </div>
+    </section>
+    <section class="stats"><div><b>01</b><span>Cari rekomendasi</span></div><div><b>02</b><span>Periksa persyaratan</span></div><div><b>03</b><span>Hubungi hotel</span></div></section>
+    <section id="daftar" class="section">
+      <div class="section-heading"><div><span class="eyebrow">PILIHAN UNTUKMU</span><h2>Rekomendasi hotel</h2><p>Contoh data di bawah dapat diganti oleh pemilik website melalui dashboard.</p></div><div class="filters"><input id="searchInput" type="search" placeholder="Cari nama atau kota…" aria-label="Cari hotel"><select id="cityFilter" aria-label="Filter kota"><option value="">Semua kota</option><option>Medan</option><option>Jakarta</option><option>Bandung</option><option>Yogyakarta</option><option>Bali</option></select></div></div>
+      <div id="hotelGrid" class="hotel-grid"><article class="loading">Memuat rekomendasi hotel…</article></div>
+    </section>
+    <section id="cara" class="how-section"><span class="eyebrow">MUDAH DIMULAI</span><h2>Mulai PKL dengan lebih terarah</h2><div class="steps"><article><span>1</span><h3>Jelajahi</h3><p>Gunakan pencarian dan filter kota untuk menemukan pilihan yang sesuai.</p></article><article><span>2</span><h3>Periksa</h3><p>Baca bidang PKL, kontak, dan catatan sebelum menghubungi hotel.</p></article><article><span>3</span><h3>Kirim minat</h3><p>Login Google dan kirim formulir minat. Data pendaftar hanya bisa dibaca pemilik.</p></article></div></section>
+    <section id="applySection" class="section apply-section hidden">
+      <div><span class="eyebrow">FORMULIR MINAT</span><h2>Kirim minat PKL</h2><p>Isi informasi seperlunya. Jangan kirim nomor identitas atau data sensitif.</p></div>
+      <form id="applyForm" class="apply-form">
+        <label>Nama lengkap<input name="name" required maxlength="100" autocomplete="name"></label>
+        <label>Asal sekolah<input name="school" required maxlength="150"></label>
+        <label>Jurusan<input name="major" required maxlength="100"></label>
+        <label>Hotel pilihan<select name="hotel" id="applyHotel" required></select></label>
+        <label>Pesan singkat (opsional)<textarea name="message" rows="3" maxlength="500" placeholder="Contoh: Saya ingin bertanya apakah tersedia kuota PKL."></textarea></label>
+        <button class="button button-primary" type="submit">Kirim minat</button><p id="applyStatus" class="form-status" role="status"></p>
+      </form>
+    </section>
+    <section id="accountPanel" class="section account-panel hidden">
+      <div class="section-heading"><div><span class="eyebrow">AKUN</span><h2>Akun Google</h2><p id="accountInfo"></p></div><button id="logoutBtn" class="button button-outline">Keluar</button></div>
+      <p class="small-note">Login pengunjung tidak memberi akses ke data pendaftar lain. Hanya akun yang ditetapkan sebagai pemilik dapat membuka dashboard admin.</p>
+    </section>
+    <section id="adminPanel" class="section admin-panel hidden">
+      <div class="section-heading"><div><span class="eyebrow">KHUSUS PEMILIK</span><h2>Dashboard admin</h2><p>Data ini hanya dapat dibaca akun pemilik yang diizinkan oleh aturan database.</p></div><button id="exportBtn" class="button button-outline">Ekspor CSV</button></div>
+      <div class="admin-columns">
+        <form id="hotelForm" class="apply-form admin-form">
+          <h3>Tambah rekomendasi hotel</h3>
+          <label>Nama hotel<input name="name" required maxlength="120"></label>
+          <label>Kota<input name="city" required maxlength="80"></label>
+          <label>Bidang PKL<input name="fields" required maxlength="180" placeholder="Housekeeping, Front Office…"></label>
+          <label>Alamat<input name="address" required maxlength="250"></label>
+          <label>Kontak publik (opsional)<input name="contact" maxlength="80"></label>
+          <label>Website resmi (opsional)<input name="website" type="url" placeholder="https://…"></label>
+          <label>Catatan<input name="notes" maxlength="250" placeholder="Konfirmasi kuota langsung ke hotel"></label>
+          <button class="button button-primary" type="submit">Simpan hotel</button><p id="hotelStatus" class="form-status" role="status"></p>
+        </form>
+        <div><h3>Pendaftar masuk <span id="appCount" class="count">0</span></h3><div id="applicationList" class="application-list"><p class="muted">Hanya pemilik yang dapat melihat data pendaftar.</p></div></div>
+      </div>
+      <h3>Kelola hotel</h3><div id="adminHotelList" class="admin-hotel-list"></div>
+    </section>
+  </main>
+  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">✦</span><span>Rekomendasi Hotel <small>Tempat PKL</small></span></a><p>Informasi untuk membantu pencarian tempat PKL. Selalu verifikasi informasi dengan pihak hotel.</p><small>© <span id="year"></span> Rekomendasi Hotel Tempat PKL</small></footer>
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
