@@ -472,14 +472,17 @@ async function saveApplication(e) {
     );
     toast("Minat PKL berhasil dikirim.");
   
+  
   } catch (e) {
-    console.error("Gagal mengirim formulir PKL:", e);
+    console.error("ERROR KIRIM PKL:", e);
     status(
       "applyStatus",
-      `Gagal: ${e.code || "unknown"} — ${e.message || "Periksa Firebase."}`
+      "Kode: " + (e.code || "tidak diketahui") +
+      " | Pesan: " + (e.message || "Tidak ada detail")
     );
   }
 }
+
 
 async function saveHotel(e) {
   e.preventDefault();
