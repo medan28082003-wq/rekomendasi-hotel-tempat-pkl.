@@ -562,4 +562,60 @@ function authChanged(user) {
     !!user &&
     !!user.email &&
     user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-  $("loginBtn").classList.toggle("hidden", !!user)
+  
+  $("loginBtn")?.classList.toggle("hidden", !!user);
+  $("heroLogin")?.classList.toggle("hidden", !!user);
+  $("logoutBtn")?.classList.toggle("hidden", !user);
+
+  if ($("userInfo")) {
+    $("userInfo").textContent = user
+      ? `Login sebagai ${user.email || "pengguna"}`
+      : "Belum login";
+  }
+
+  $("adminPanel")?.classList.toggle("hidden", !isAdmin);
+  $("applySection")?.classList.toggle("hidden", !user);
+
+  if (isAdmin) {
+    addFeatureUI();
+    loadApplications();
+    loadAdminNotes();
+  }
+
+  loadAnnouncements();
+}
+
+function init() {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+
+  $("loginBtn")?.addEventListener("click", login);
+  $("heroLogin")?.addEventListener("click", login);
+  $("logoutBtn")?.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      toast("Berhasil keluar.");
+    } catch (e) {
+      console.error(e);
+      toast("Gagal keluar.");
+    }
+  });
+
+  $("searchInput")?.addEventListener("input", renderHotels);
+  $("cityFilter")?.addEventListener("change", renderHotels);
+  $("applyForm")?.addEventListener("submit", saveApplication);
+  $("hotelForm")?.addEventListener("submit", saveHotel);
+  $("exportCsv")?.addEventListener("click", exportCsv);
+
+  loadHotels();
+  onAuthStateChanged(auth, authChanged);
+}
+
+try {
+  init();
+} catch (e) {
+  console.error("Inisialisasi Firebase gagal:", e);
+  toast("Website gagal memulai Firebase. Periksa konfigurasi.");
+}
+
