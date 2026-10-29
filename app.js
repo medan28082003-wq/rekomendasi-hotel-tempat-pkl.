@@ -5,15 +5,15 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signO
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "GANTI_DENGAN_API_KEY_FIREBASE",
-  authDomain: "GANTI_DENGAN_PROJECT_ID.firebaseapp.com",
-  projectId: "GANTI_DENGAN_PROJECT_ID",
-  storageBucket: "GANTI_DENGAN_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "GANTI_DENGAN_SENDER_ID",
-  appId: "GANTI_DENGAN_APP_ID"
+  apiKey: "AIzaSyCVLOtGbvjM4IyZfZlIm5GEY2_1r1V_ZVM",
+  authDomain: "pklpro.firebaseapp.com",
+  projectId: "pklpro",
+  storageBucket: "pklpro.firebasestorage.app",
+  messagingSenderId: "254183560694",
+  appId: "1:254183560694:web:95f524e091e123d3aee3d7"
 };
 // Gunakan email Google pemilik yang kamu kendalikan. Akses admin juga wajib dibatasi oleh Firestore Rules.
-const ADMIN_EMAIL = "GANTI_DENGAN_EMAIL_PEMILIK@gmail.com";
+const ADMIN_EMAIL = "medan28082003@gmail.com";
 
 const $ = (id) => document.getElementById(id);
 const demoHotels = [
