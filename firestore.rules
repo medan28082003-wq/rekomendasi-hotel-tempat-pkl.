@@ -7,7 +7,7 @@ service cloud.firestore {
     // Ganti email ini dengan email Google pemilik website.
     function isOwner() {
       return signedIn() &&
-        request.auth.token.email == 'GANTI_DENGAN_EMAIL_PEMILIK@gmail.com';
+        request.auth.token.email == 'medan28082003@gmail.com';
     }
 
     match /hotels/{hotelId} {
